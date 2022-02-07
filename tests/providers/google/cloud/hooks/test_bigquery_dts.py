@@ -48,6 +48,7 @@ TRANSFER_CONFIG = TransferConfig(
 TRANSFER_CONFIG_ID = "id1234"
 RUN_ID = "runid1234"
 
+
 class BigQueryDataTransferHookTestCase(unittest.TestCase):
     def setUp(self) -> None:
         with mock.patch(
@@ -108,11 +109,12 @@ class BigQueryDataTransferHookTestCase(unittest.TestCase):
         )
 
     @mock.patch(
-        "airflow.providers.google.cloud.hooks.bigquery_dts."
-        "DataTransferServiceClient.get_transfer_run"
+        "airflow.providers.google.cloud.hooks.bigquery_dts." "DataTransferServiceClient.get_transfer_run"
     )
     def test_get_transfer_run(self, service_mock):
-        self.hook.get_transfer_run(run_id=RUN_ID, transfer_config_id=TRANSFER_CONFIG_ID, project_id=PROJECT_ID)
+        self.hook.get_transfer_run(
+            run_id=RUN_ID, transfer_config_id=TRANSFER_CONFIG_ID, project_id=PROJECT_ID
+        )
 
         name = f"projects/{PROJECT_ID}/transferConfigs/{TRANSFER_CONFIG_ID}/runs/{RUN_ID}"
         service_mock.assert_called_once_with(
